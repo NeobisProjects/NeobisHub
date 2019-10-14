@@ -1,0 +1,10 @@
+*.pyc
+*~
+__pycache__
+hub_venv
+db.sqlite3
+/staticfiles
+/store/files
+.DS_Store
+.env
+.idea
