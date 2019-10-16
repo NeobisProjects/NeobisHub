@@ -1,9 +1,13 @@
-from rest_framework import permissions
+from django.contrib.auth import authenticate, login
+from rest_framework import permissions, status
+from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import generics
 
 from user_profile.errors import DuplicateUserError
-from user_profile.serializers import UserCreateSerializer, UserSerializer
+from user_profile.models import UserProfile
+from user_profile.serializers import UserCreateSerializer, UserSerializer, UserProfileSerializer
 from user_profile.services import UserService
 
 
@@ -22,3 +26,37 @@ class UserCreateView(APIView):
             return Response(data=e.message, status=400)
 
         return Response(UserSerializer(instance=user).data, status=200)
+
+
+
+class UserLoginView(APIView):
+    permission_classes = (permissions.AllowAny,)
+
+    def post(self, request):
+        data = request.data
+
+        username = data.get('email', None)
+        password = data.get('password', None)
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                token = Token.objects.get_or_create(user=user)
+                data = {
+                    'user_id': user.id,
+                    'token': str(token[0])
+                }
+
+                return Response(data, status=status.HTTP_200_OK)
+            else:
+                return Response({'Message': 'User Not Activate'}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'Message': 'Bad Authorization'}, status=status.HTTP_404_NOT_FOUND)
+
+
+# class UserValidateView(APIView):
+class ListView(generics.ListAPIView):
+    serializer_class = UserProfileSerializer
+    queryset = UserProfile.objects.all()

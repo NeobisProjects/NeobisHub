@@ -2,9 +2,21 @@ from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from rest_framework import serializers
 
-from user_profile.models import UserProfile
+from user_profile.models import UserProfile, Progress, UserProject
 
 User = get_user_model()
+
+
+class ProgressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Progress
+        fields = ('study_plan', 'test', )
+
+
+class UserProjectSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProject
+        fields = ('project', 'percent_of_project', 'percent_of_user', 'user_role', )
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -40,9 +52,13 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    progress = ProgressSerializer()
+    project = UserProjectSerializer(many=True)
+
     class Meta:
         model = UserProfile
-        fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion', 'validation_code', 'resume ')
+        fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion',
+                  'validation_code', 'resume ', 'progress', 'project', )
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -50,4 +66,4 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('email', 'password')
+        fields = ('email', 'profile')

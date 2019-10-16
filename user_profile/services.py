@@ -5,6 +5,7 @@ from django.db import transaction, IntegrityError
 from department.models import Department
 from user_profile.errors import DuplicateUserError
 from user_profile.models import UserProfile
+from user_profile.utils import Validate
 
 User = get_user_model()
 
@@ -20,10 +21,12 @@ class UserService:
             raise ObjectDoesNotExist('user does not exist')
         except IntegrityError:
             raise DuplicateUserError()
+        code = Validate.create_validation_code()
+        print(code)
 
         UserProfile.objects.create(user=user, name=data['name'], phone=data['phone'],
                                    department=Department.objects.get(id=data['department']),
                                    telegram=data['telegram'], status=data['status'], congestion=data['congestion'],
-                                   resume=data['resume'])
+                                   resume=data['resume'], validation_code=code)
 
         return user

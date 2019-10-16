@@ -25,9 +25,9 @@ class UserModelManager(UserManager):
         extra_fields.setdefault('is_superuser', True)
 
         if extra_fields.get('is_staff') is not True:
-            raise ValueError('Текст напишешь сама')
+            raise ValueError('User is not staff')
 
         if extra_fields.get('is_superuser') is not True:
-            raise ValueError('и тут тоже сама')
+            raise ValueError('User is not superuser')
 
         return self._create_user(email, password, **extra_fields)
