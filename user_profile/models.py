@@ -29,7 +29,7 @@ class UserProfile(models.Model):
     congestion = models.PositiveSmallIntegerField(validators=[MaxValueValidator(100)])
     validation_code = models.CharField(max_length=6, null=True, blank=True)
     # TODO: хз какой тип , спросить у Сережи что это вообще
-    resume = models.FileField()
+    resume = models.FileField(null=True)
 
     @classmethod
     def create(cls, user, name, department, phone, telegram, status, congestion, validation_code, resume):

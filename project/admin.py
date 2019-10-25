@@ -8,7 +8,7 @@ class DocumentInline(admin.StackedInline):
     extra = 0
 
 
-class ScreenshotInline(admin.ModelAdmin):
+class ScreenshotInline(admin.StackedInline):
     model = Screenshot
     extra = 0
 
@@ -17,6 +17,6 @@ class ProjectAdmin(admin.ModelAdmin):
     inlines = [DocumentInline, ScreenshotInline]
 
 
-admin.register(Project, ProjectAdmin)
-admin.register(Screenshot)
-admin.register(Document)
+admin.site.register(Project, ProjectAdmin)
+admin.site.register(Screenshot)
+admin.site.register(Document)

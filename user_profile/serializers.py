@@ -10,13 +10,13 @@ User = get_user_model()
 class ProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Progress
-        fields = ('study_plan', 'test', )
+        fields = ('study_plan', 'test',)
 
 
 class UserProjectSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProject
-        fields = ('project', 'percent_of_project', 'percent_of_user', 'user_role', )
+        fields = ('project', 'percent_of_project', 'percent_of_user', 'user_role',)
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -30,14 +30,14 @@ class UserCreateSerializer(serializers.ModelSerializer):
     status = serializers.CharField(max_length=5)
     congestion = serializers.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     validation_code = serializers.CharField(max_length=6)
-    resume = serializers.FileField()
+    resume = serializers.FileField(required=False)
 
     class Meta:
         model = User
         fields = ('email', 'password', 'password_repeat', 'name', 'department',
                   'phone', 'telegram', 'status', 'congestion', 'validation_code', 'resume',)
 
-    def is_valid(self, raise_exception=False):
+    def is_valid(self, raise_exception: bool = ...):
         is_valid = super().is_valid(raise_exception)
 
         if self.validated_data['password'] != self.validated_data['password_repeat']:
@@ -48,22 +48,23 @@ class UserCreateSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion', 'validation_code', 'resume ')
+        fields = ('name', 'department', 'phone', 'telegram', 'status',
+                  'congestion', 'validation_code', 'resume ',)
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    progress = ProgressSerializer()
-    project = UserProjectSerializer(many=True)
+    # progress = ProgressSerializer()
+    # project = UserProjectSerializer(many=True)
 
     class Meta:
         model = UserProfile
         fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion',
-                  'validation_code', 'resume ', 'progress', 'project', )
-
+                  'validation_code', )
+# 'resume ','progress', 'project',
 
 class UserSerializer(serializers.ModelSerializer):
     profile = UserProfileSerializer(read_only=True)
 
     class Meta:
-        model = UserProfile
-        fields = ('email', 'profile')
+        model = User
+        fields = ('email', 'profile',)

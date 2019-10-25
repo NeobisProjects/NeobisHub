@@ -13,8 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
 from django.urls import path
 
+from project.views import ProjectListView, ProjectCreateView, ProjectRetrieveView
+
 urlpatterns = [
+    path('', ProjectListView.as_view()),
+    path('create/', ProjectCreateView.as_view()),
+    path('(P<pk>[0-9]+)/', ProjectRetrieveView.as_view())
 ]

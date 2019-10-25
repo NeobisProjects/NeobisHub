@@ -7,7 +7,7 @@ from rest_framework import generics
 
 from user_profile.errors import DuplicateUserError
 from user_profile.models import UserProfile
-from user_profile.serializers import UserCreateSerializer, UserSerializer, UserProfileSerializer
+from user_profile.serializers import UserCreateSerializer, UserSerializer, UserProfileSerializer, UserUpdateSerializer
 from user_profile.services import UserService
 
 
@@ -26,7 +26,6 @@ class UserCreateView(APIView):
             return Response(data=e.message, status=400)
 
         return Response(UserSerializer(instance=user).data, status=200)
-
 
 
 class UserLoginView(APIView):
@@ -56,7 +55,11 @@ class UserLoginView(APIView):
             return Response({'Message': 'Bad Authorization'}, status=status.HTTP_404_NOT_FOUND)
 
 
-# class UserValidateView(APIView):
-class ListView(generics.ListAPIView):
-    serializer_class = UserProfileSerializer
+class UserUpdateView(generics.UpdateAPIView):
+    serializer_class = UserUpdateSerializer
     queryset = UserProfile.objects.all()
+
+
+# class CodeValidationView(APIView): # TODO: восстановление пароля или регистрация :страница ввода кода
+# class UserForgotPassword(APIView): # TODO: восстановление пароля:страница ввода имейла и отправки кода валидации
+# class

@@ -23,10 +23,10 @@ class UserService:
             raise DuplicateUserError()
         code = Validate.create_validation_code()
         print(code)
-
         UserProfile.objects.create(user=user, name=data['name'], phone=data['phone'],
                                    department=Department.objects.get(id=data['department']),
                                    telegram=data['telegram'], status=data['status'], congestion=data['congestion'],
-                                   resume=data['resume'], validation_code=code)
+                                   # resume=data['resume'], validation_code=code)
+                                   validation_code=code)
 
         return user
