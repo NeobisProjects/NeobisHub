@@ -7,3 +7,4 @@ class Validate:
     def create_validation_code():
         validation_code = ''.join(random.choice(string.digits) for _ in range(6))
         return validation_code
+#TODO: создать ф-ю отправки имейла красиво кодом валидации

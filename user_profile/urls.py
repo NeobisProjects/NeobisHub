@@ -21,5 +21,6 @@ from .views import *
 urlpatterns = [
     path('create/', UserCreateView.as_view()),
     path('login/', UserLoginView.as_view()),
-    path('reset/', auth_views.PasswordChangeView.as_view())
+    path('reset/', auth_views.PasswordChangeView.as_view()),
+    path('validate/', CodeValidationView.as_view())
 ]

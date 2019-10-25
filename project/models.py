@@ -20,13 +20,22 @@ class Project(models.Model):
     # team = models.ForeignKey(CustomUser, on_delete=models.PROTECT, related_name='team')
     status = models.CharField(max_length=5, choices=PROJECT_STATUS)
 
+    def __str__(self):
+        return self.name
+
 
 class Document(models.Model):
     name = models.CharField(max_length=50)
     file = models.FileField()
     project = models.ForeignKey(Project, related_name='documents', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Screenshot(models.Model):
     image = models.ImageField()
     project = models.ForeignKey(Project, related_name='screenshots', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.image.url

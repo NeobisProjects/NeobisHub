@@ -52,19 +52,27 @@ class UserUpdateSerializer(serializers.ModelSerializer):
                   'congestion', 'validation_code', 'resume ',)
 
 
+class UserProfileRegistrationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserProfile
+        fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion', 'validation_code',)
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
-    # progress = ProgressSerializer()
-    # project = UserProjectSerializer(many=True)
+    progress = ProgressSerializer()
+    project = UserProjectSerializer(many=True)
 
     class Meta:
         model = UserProfile
         fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion',
-                  'validation_code', )
-# 'resume ','progress', 'project',
+                  'validation_code', 'resume ', 'progress', 'project',)
+
 
 class UserSerializer(serializers.ModelSerializer):
-    profile = UserProfileSerializer(read_only=True)
+    profile = UserProfileRegistrationSerializer(read_only=True)
 
     class Meta:
         model = User
-        fields = ('email', 'profile',)
+        fields = ('id', 'email', 'profile',)
+#TODO:убрать через сериалайзе код при регистрации
