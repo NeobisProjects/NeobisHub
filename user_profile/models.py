@@ -4,7 +4,7 @@ from django.db import models, transaction
 from django.core.validators import MaxValueValidator
 
 from department.models import Department
-from project.models import *
+from project.models import Project
 from user_profile.validators import validate_number
 
 User = get_user_model()
@@ -27,8 +27,7 @@ class UserProfile(models.Model):
     telegram = models.URLField()
     status = models.CharField(max_length=5, choices=USER_STATUS)
     congestion = models.PositiveSmallIntegerField(validators=[MaxValueValidator(100)])
-    validation_code = models.CharField(max_length=6, null=True, blank=True)
-    # TODO: хз какой тип , спросить у Сережи что это вообще
+    validation_code = models.CharField(max_length=4, null=True, blank=True)
     resume = models.FileField(null=True)
 
     @classmethod

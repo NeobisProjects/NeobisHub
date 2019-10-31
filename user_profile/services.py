@@ -23,6 +23,7 @@ class UserService:
         except IntegrityError:
             raise DuplicateUserError()
         code = Validate.create_validation_code()
+        Validate.send_email_with_code()
         UserProfile.objects.create(user=user, name=data['name'], phone=data['phone'],
                                    department=Department.objects.get(id=data['department']),
                                    telegram=data['telegram'], status=data['status'], congestion=data['congestion'],

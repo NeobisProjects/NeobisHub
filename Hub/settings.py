@@ -154,3 +154,4 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
     ),
 }
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')

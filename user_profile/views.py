@@ -5,7 +5,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import generics
 
-from user_profile.constants import UserNotActive, BadAuthorization, WrongValidationCode, UserDoesNotExist
+from user_profile.constants import UserNotActive, BadAuthorization, WrongValidationCode, UserDoesNotExist, \
+    SuccessfulValidation
 from user_profile.errors import DuplicateUserError
 from user_profile.models import UserProfile
 from user_profile.serializers import UserCreateSerializer, UserSerializer, UserProfileSerializer, UserUpdateSerializer
@@ -81,13 +82,9 @@ class CodeValidationView(APIView):
             if data_to_validate == user_profile.validation_code:
                 user = ValidateUserService.change_user_status(user_id=user_id)
 
-                token = ValidateUserService.get_user_token(user=user)
+                ValidateUserService.get_user_token(user=user)
 
-                data = {
-                    'user_id': user_id,
-                    'token': str(token[0])
-                }
-                return Response(data, status=status.HTTP_200_OK)
+                return Response(SuccessfulValidation, status=status.HTTP_200_OK)
             else:
                 return Response(WrongValidationCode, status=status.HTTP_400_BAD_REQUEST)
         except UserProfile.DoesNotExist:

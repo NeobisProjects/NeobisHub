@@ -29,7 +29,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     telegram = serializers.URLField()
     status = serializers.CharField(max_length=5)
     congestion = serializers.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
-    validation_code = serializers.CharField(max_length=6)
+    validation_code = serializers.CharField(max_length=4)
     resume = serializers.FileField(required=False)
 
     class Meta:
@@ -56,17 +56,18 @@ class UserProfileRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion', 'validation_code',)
+        fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion', )
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    progress = ProgressSerializer()
-    project = UserProjectSerializer(many=True)
+    # progress = ProgressSerializer()
+    # project = UserProjectSerializer(many=True)
 
     class Meta:
         model = UserProfile
-        fields = ('name', 'department', 'phone', 'telegram', 'status', 'congestion',
-                  'validation_code', 'resume ', 'progress', 'project',)
+        fields = ('id', 'name', 'department', 'phone', 'telegram', 'status', 'congestion',
+                  'validation_code', )
+# 'resume ', 'progress', 'project',
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -75,4 +76,4 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'email', 'profile',)
-#TODO:убрать через сериалайзе код при регистрации
+# TODO:убрать через сериалайзе код при регистрации
