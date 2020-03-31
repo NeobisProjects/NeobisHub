@@ -1,20 +1,25 @@
 from django.contrib import admin
 
-from project.models import Project, Screenshot, Document
+from project.models import Project, Screenshot, Document, UserProject
 
 
 class DocumentInline(admin.StackedInline):
     model = Document
-    extra = 0
+    extra = 1
 
 
 class ScreenshotInline(admin.StackedInline):
     model = Screenshot
-    extra = 0
+    extra = 2
+
+
+class UserProjectInline(admin.StackedInline):
+    model = UserProject
+    extra = 1
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    inlines = [DocumentInline, ScreenshotInline]
+    inlines = [DocumentInline, ScreenshotInline, UserProjectInline]
 
 
 admin.site.register(Project, ProjectAdmin)

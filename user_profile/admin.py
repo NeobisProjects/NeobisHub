@@ -1,17 +1,18 @@
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 
-from user_profile.models import UserProfile, UserProject, Progress
+from user_profile.models import UserProfile, Progress
+from project.models import UserProject
 
 
 class UserProjectInline(admin.StackedInline):
     model = UserProject
-    extra = 0
+    extra = 1
 
 
-class ProgressInline(admin.ModelAdmin):
+class ProgressInline(admin.StackedInline):
     model = Progress
-    extra = 0
+    extra = 1
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -30,5 +31,6 @@ class User(admin.ModelAdmin):
     inlines = [UserProfileInline]
 
 
-admin.register(UserProject)
-admin.register(Progress)
+admin.site.register(UserProject)
+admin.site.register(Progress)
+admin.site.register(UserProfile, UserProfileAdmin)

@@ -6,5 +6,8 @@ db.sqlite3
 /staticfiles
 /store/files
 .DS_Store
+/static
 .env
 .idea
+delete_migr.sh
+/files

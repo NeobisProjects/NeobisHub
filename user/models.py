@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 
-from project.models import *
+from django.db import models
+
 from user.managers import UserModelManager
 
 

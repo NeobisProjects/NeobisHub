@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.urls import path
 
-from project.views import ProjectListView, ProjectCreateView, ProjectRetrieveView
+from project.views import *
 
 urlpatterns = [
     path('', ProjectListView.as_view()),
+    path('pm/', ProjectListByPMView.as_view()),
+    path('status/', ProjectListByStatusView.as_view()),
+    path('<int:pk>/', ProjectRetrieveView.as_view()),
     path('create/', ProjectCreateView.as_view()),
-    path('(P<pk>[0-9]+)/', ProjectRetrieveView.as_view())
+    path('update_destroy/<int:pk>/', ProjectUpdateDestroyView.as_view()),
 ]
